@@ -1,0 +1,10 @@
+{
+  "sites": [],
+  "lives": [
+    {
+      "name": "我的直播",
+      "type": 0,
+      "url": "https://USERNAME.github.io/my-media-sources/live.m3u"
+    }
+  ]
+}

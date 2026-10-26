@@ -1,0 +1,4 @@
+#EXTM3U
+# 当前为空直播列表。下面是添加一个获得授权的频道的方法（删除每行开头的注释符号后替换示例 URL）：
+# #EXTINF:-1 group-title="我的频道",示例直播
+# https://your-authorized-stream.example/live/index.m3u8

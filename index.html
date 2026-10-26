@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="个人静态资源订阅管理页">
+  <title>我的资源订阅中心</title>
+  <style>
+    :root{color-scheme:light dark;--bg:#f5f7fb;--panel:#fff;--text:#172033;--muted:#64748b;--line:#dde4ed;--accent:#265bc4}
+    @media(prefers-color-scheme:dark){:root{--bg:#0f172a;--panel:#182438;--text:#edf2f7;--muted:#9eb1c9;--line:#34445c;--accent:#90b4ff}}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.7 system-ui,-apple-system,'Microsoft YaHei',sans-serif}
+    main{max-width:860px;margin:55px auto;padding:0 22px}h1{font-size:30px;margin:0 0 7px}h2{margin:0 0 8px;font-size:18px}.lead{margin:0 0 26px;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}.card{border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:20px}
+    .hint{color:var(--muted);font-size:13px;margin:0 0 14px}.url{display:block;background:var(--bg);overflow-wrap:anywhere;padding:9px 11px;border-radius:8px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;margin:12px 0}
+    .actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}button,.link{appearance:none;border:1px solid var(--line);border-radius:8px;padding:7px 12px;background:transparent;color:var(--text);cursor:pointer;text-decoration:none;font:inherit;font-size:13px}button:hover,.link:hover{border-color:var(--accent)}
+    .note{margin-top:22px;padding:18px 20px;border:1px solid var(--line);border-radius:14px;color:var(--muted);font-size:14px}footer{color:var(--muted);font-size:12px;padding:30px 0}
+  </style>
+</head>
+<body>
+  <main>
+    <h1>我的资源订阅中心</h1>
+    <p class="lead">GitHub Pages · 免费静态文件托管 · 直播 / 视频 / 小说配置</p>
+    <div class="grid" id="cards"></div>
+    <div class="note">
+      <strong>使用提示：</strong>本模板不预装任何直播频道、影视线路或小说站点。你需要自行上传合法、可访问的源文件。<br>
+      <code>tvbox.json</code> 中的 <code>USERNAME</code> 占位符必须替换为你的 GitHub 用户名。<br>
+      <code>videos.json</code> 和 <code>books.json</code> 是通用索引，并非 TVBox /「阅读」直接可导入的源规则；<code>bookSource.json</code> 是空的「阅读」源列表。
+    </div>
+    <footer>公开仓库内的内容任何人都可能查看。请勿上传账号密码、Cookie、私有 Token 或未经授权的内容。</footer>
+  </main>
+  <script>
+    const items=[
+      {name:'电视直播',desc:'M3U 播放列表；填入已授权频道地址',file:'live.m3u'},
+      {name:'TVBox / 影视仓配置',desc:'按客户端适配的 JSON 配置（初始为空站点列表）',file:'tvbox.json'},
+      {name:'视频资源索引',desc:'自定义视频 JSON 清单，供自己开发的客户端读取',file:'videos.json'},
+      {name:'小说索引',desc:'自定义电子书索引，供自己开发的客户端读取',file:'books.json'},
+      {name:'「阅读」书源',desc:'「阅读」App 的规则数组文件（初始无书源）',file:'bookSource.json'}
+    ];
+    const holder=document.getElementById('cards');
+    for(const item of items){
+      const url=new URL(item.file,document.baseURI).href;
+      const section=document.createElement('section');section.className='card';
+      const title=document.createElement('h2');title.textContent=item.name;
+      const desc=document.createElement('p');desc.className='hint';desc.textContent=item.desc;
+      const path=document.createElement('code');path.className='url';path.textContent=url;
+      const actions=document.createElement('div');actions.className='actions';
+      const link=document.createElement('a');link.className='link';link.href=url;link.textContent='查看文件';link.target='_blank';link.rel='noopener noreferrer';
+      const button=document.createElement('button');button.type='button';button.textContent='复制地址';
+      button.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(url);button.textContent='已复制';setTimeout(()=>button.textContent='复制地址',1400)}catch{button.textContent='请手动复制上方地址'}});
+      actions.append(link,button);section.append(title,desc,path,actions);holder.append(section);
+    }
+  </script>
+</body>
+</html>
